@@ -71,13 +71,23 @@ map.addEventListener('click',function(e){
 })
 */
 
+var modeClickEnabled = false;
+var modeBtn = document.getElementById('mode');
+
 map.addEventListener('click', function(e){
   map.clearOverlays();
   p2=new BMap.Point(e.point.lng,e.point.lat);
-  document.getElementById('mode').addEventListener('click', onModeClick);
+  if (modeClickEnabled) {
+    modeBtn.click();
+  } else {
+    modeBtn.addEventListener('click', onModeClick);
+    modeClickEnabled = true;
+  }
 });
 
+
 function onModeClick() {
+  debugger;
   var driving = new BMap.DrivingRoute(map, {renderOptions: {map: map, panel: "r-result", autoViewport: true}});
   driving.search(p1, p2);
   document.getElementById('r-result').style.display='block'

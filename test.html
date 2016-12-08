@@ -1,0 +1,72 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<style type="text/css">
+body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+  #r-result{
+    display: block;
+        position: absolute;
+        left: 0;
+        top: 55%;
+        height: auto;
+        width: 100%;
+        background: #fff;
+        z-index: 99999;
+        padding: 10px 12px;
+        font-size: 12px;
+        overflow: scroll;
+  }
+  #mode-cont{
+    position: absolute;
+    left: 0;
+    bottom: 0
+  }
+  .BMap_cpyCtrl  
+    {  
+        display:none;   
+    }  
+    .anchorBL{  
+        display:none;   
+    }   
+</style>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=CFe7d643c7ff7ef0047e39d1f3833082"></script>
+<title>根据起终点经纬度驾车导航</title>
+</head>
+<body>
+<div id="allmap"></div>
+<div id="mode-cont">
+    <div id="mode">选择驾车方式</div>
+  <div id="r-result" style="display: none"></div>
+</div>
+
+</body>
+</html>
+<script type="text/javascript">
+ document.getElementById('r-result').style.display='none'
+
+// 百度地图API功能
+var map = new BMap.Map("allmap");
+map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);
+
+var p1 = new BMap.Point(116.301934,39.977552);
+// var p2 = new BMap.Point(116.508328,39.919141);
+map.enableScrollWheelZoom(true);
+
+var p2;
+map.addEventListener('click',function(e){
+    map.clearOverlays()
+    document.getElementById('mode').addEventListener('click',function(){
+
+
+         p2=new BMap.Point(e.point.lng,e.point.lat);
+    var driving = new BMap.DrivingRoute(map, {renderOptions: {map: map, panel: "r-result", autoViewport: true}});
+    driving.search(p1, p2);
+    document.getElementById('r-result').style.display='block'
+
+    })
+
+   
+})
+
+</script>

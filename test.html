@@ -54,6 +54,7 @@ var p1 = new BMap.Point(116.301934,39.977552);
 map.enableScrollWheelZoom(true);
 
 var p2;
+/*
 map.addEventListener('click',function(e){
     map.clearOverlays()
     document.getElementById('mode').addEventListener('click',function(){
@@ -68,5 +69,18 @@ map.addEventListener('click',function(e){
 
    
 })
+*/
+
+map.addEventListener('click', function(e){
+  map.clearOverlays();
+  p2=new BMap.Point(e.point.lng,e.point.lat);
+  document.getElementById('mode').addEventListener('click', onModeClick);
+});
+
+function onModeClick() {
+  var driving = new BMap.DrivingRoute(map, {renderOptions: {map: map, panel: "r-result", autoViewport: true}});
+  driving.search(p1, p2);
+  document.getElementById('r-result').style.display='block'
+};
 
 </script>
